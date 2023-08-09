@@ -8,8 +8,13 @@
 
       "Modules": {
         "$className": "Folder",
-        "$path": "src/Shared",
+        "$path": "src/Modules",
         "$ignoreUnknownInstances": true
+      },
+
+      "Packages": {
+        "$className": "Folder",
+        "$path": "Packages"
       }
     },
 

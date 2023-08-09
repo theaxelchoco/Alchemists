@@ -7,7 +7,7 @@ local Remote = GlobalFunctions.GetRemote("Effects")
 
 -->Methods
 Module["Init"] = function()
-	Datastore = GlobalFunctions.Modules["Datastore"]
+	Datastore = GlobalFunctions.GetModule("Datastore")
 end
 
 local function LevelUp(Player)

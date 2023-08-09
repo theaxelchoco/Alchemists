@@ -29,7 +29,7 @@ end
 for _, Module in pairs(GlobalFunctions.Modules) do
 	if Module.Init then
 		if typeof(Module.Init) == "function" then
-			Module.Init(GlobalFunctions.Modules)
+			Module.Init()
 		end
 	end
 end

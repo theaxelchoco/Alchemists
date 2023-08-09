@@ -85,6 +85,10 @@ Module["GetRemote"] = function(Name)
 	return game.ReplicatedStorage.Remotes:FindFirstChild(Name, true)
 end
 
+Module["GetModule"] = function(Name)
+	return Module.Modules[Name]
+end
+
 Module["Raycast"] = function(Origin, Direction, Blacklist, Visualize)
 	table.insert(Blacklist, workspace.World.Visuals)
 	table.insert(Blacklist, workspace.World.Interactable)

@@ -34,5 +34,8 @@ for _, Module in pairs(GlobalFunctions.Modules) do
 	end
 end
 
+print(GlobalFunctions.GetModule("Roact"))
+--WRITE CODE FOR CHARACTER ADDED AND WHATNOT SO WE CAN REFRESH THE INIT OF EVERY MODULE FOR THE PLAYER (CHILDREN OF THIS SCRIPT)
+
 print(GlobalFunctions.Modules)
 warn("Client Modules done loading.")

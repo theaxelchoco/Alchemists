@@ -12,8 +12,7 @@ local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
 local ObjectDistance = 15
 
-local HoverUI = Player.PlayerGui:WaitForChild("IngredientHover")
-local HoverText = HoverUI:FindFirstChild("Label")
+local PlayerGui = Player.PlayerGui
 
 local Remote = GlobalFunctions.GetRemote("IngredientActions")
 local LastObject
@@ -21,11 +20,29 @@ local LastObject
 -->Methods
 Module["Init"] = function()
 	LabData = GlobalFunctions.GetModule("LabData")
+	local Roact = GlobalFunctions.GetModule("Roact")
+
+	local HoverUI = Roact.createElement("ScreenGui", {
+		Name = "ObjectHover",
+		IgnoreGuiInset = true,
+	}, {
+		HoverText = Roact.createElement("TextLabel", {
+			Name = "Label",
+			Text = "Object Name",
+			Size = UDim2.new(0.123, 0, 0.021, 0),
+		}),
+	})
+
+	HoverText = Roact.mount(HoverUI, PlayerGui)
 end
 
 function DistanceCheck(Target)
 	local Distance = (Player.Character:WaitForChild("HumanoidRootPart").Position - Target.Position).Magnitude
 	return Distance < ObjectDistance
+end
+
+function ValidObject(Object)
+	return Object:GetAttribute("Ingredient") or Object:GetAttribute("LabTool")
 end
 
 function IsHovered(Mouse)
@@ -34,7 +51,11 @@ function IsHovered(Mouse)
 		return
 	end
 
-	if Target and Target:GetAttribute("Ingredient") or Target:GetAttribute("LabTool") then
+	if ValidObject(Target.Parent) then
+		Target = Target.Parent
+	end
+
+	if Target and ValidObject(Target) then
 		if DistanceCheck(Target) then
 			return Target
 		end
@@ -49,7 +70,6 @@ function ObjectText()
 	local Speed = 0.085
 
 	if Object then
-		--HoverText.Position = -UDim2.new(0, (Mouse.X + 15), 0, (Mouse.Y + 20))
 		if HoverText.Visible then
 			TweenService:Create(HoverText, TweenInfo.new(Speed, Enum.EasingStyle.Quad), {
 				Position = UDim2.new(0, (Mouse.X + 15), 0, (Mouse.Y - 12.5)),

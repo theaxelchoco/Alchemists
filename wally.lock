@@ -5,7 +5,7 @@ registry = "test"
 [[package]]
 name = "axelw/spellcasters"
 version = "0.1.0"
-dependencies = [["Janitor", "howmanysmall/janitor@1.15.6"]]
+dependencies = [["Janitor", "howmanysmall/janitor@1.15.6"], ["Rewire", "sayhisam1/rewire@0.3.0"], ["Roact", "roblox/roact@1.4.4"]]
 
 [[package]]
 name = "evaera/promise"
@@ -16,3 +16,13 @@ dependencies = []
 name = "howmanysmall/janitor"
 version = "1.15.6"
 dependencies = [["Promise", "evaera/promise@4.0.0"]]
+
+[[package]]
+name = "roblox/roact"
+version = "1.4.4"
+dependencies = []
+
+[[package]]
+name = "sayhisam1/rewire"
+version = "0.3.0"
+dependencies = []

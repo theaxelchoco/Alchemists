@@ -6,3 +6,5 @@ realm = "shared"
 
 [dependencies]
 Janitor = "howmanysmall/janitor@^1.15.6"
+Rewire = "sayhisam1/rewire@0.3.0"
+Roact = "roblox/roact@1.4.0"

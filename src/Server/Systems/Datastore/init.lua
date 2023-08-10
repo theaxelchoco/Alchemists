@@ -162,7 +162,7 @@ Module["CreateValues"] = function(Player, Data, Parent)
 		end)
 	end
 
-	GlobalFunctions.Modules["States"].LoadStates(Player)
+	GlobalFunctions.Modules["States"].LoadStates(States)
 end
 
 Module["Init"] = function()

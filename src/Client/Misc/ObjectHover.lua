@@ -46,7 +46,7 @@ end
 
 function ObjectText()
 	local Object = IsHovered(Mouse)
-	local Speed = 0.065
+	local Speed = 0.085
 
 	if Object then
 		--HoverText.Position = -UDim2.new(0, (Mouse.X + 15), 0, (Mouse.Y + 20))

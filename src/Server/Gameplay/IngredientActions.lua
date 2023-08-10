@@ -17,7 +17,7 @@ end
 
 Module["Init"] = function()
 	Datastore = GlobalFunctions.GetModule("Datastore")
-	IngredientStorage = GlobalFunctions.GetModule("Ingredients")
+	LabData = GlobalFunctions.GetModule("LabData")
 	IngredientTable = GlobalFunctions.GetModule("IngredientTable")
 
 	Remote.OnServerEvent:Connect(function(Player, Action, ObjectName)
@@ -27,19 +27,39 @@ Module["Init"] = function()
 	end)
 end
 
-Module["Pickup"] = function(Player, ObjectName)
-	print("hallo")
-
+Module["AddCauldron"] = function(Player)
 	local Character = Player.Character
-	local Model = IngredientTable.GetIngredient(Player, ObjectName)
-	print(Model)
+	local Model = Character.ItemHeld:FindFirstChildOfClass("MeshPart")
 
+	--Add check for ingredient or potion type
+	if Model and HasItem(Character) then
+		local Attach = Model:FindFirstChild("CenterAttachment")
+		local CharAttach = Character.RightHand:FindFirstChild("RightGripAttachment")
+
+		Model.Anchored = true
+		Model.Massless = true
+		Model.CanCollide = false
+		Model.CanQuery = false
+		Model.Parent = workspace.World.Visuals
+
+		local Weld = Model:FindFirstChild("ItemWeld")
+		if Weld then
+			Weld:Destroy()
+		end
+
+		--Bezier Curve to throw object in the cauldron
+	end
+end
+
+Module["Pickup"] = function(Player, ObjectName)
+	local Character = Player.Character
+	local Model = IngredientTable.GetObject(Player, ObjectName)
+
+	--Add check for ingredient or potion type
 	if Model and not Character.ItemHeld:FindFirstChild(ObjectName) and not HasItem(Character) then
 		local Clone = Model:Clone()
 
-		local Attach = Instance.new("Attachment")
-		Attach.Parent = Model
-
+		local Attach = Model:FindFirstChild("CenterAttachment")
 		local CharAttach = Character.RightHand:FindFirstChild("RightGripAttachment")
 
 		Model.Anchored = false
@@ -55,7 +75,7 @@ Module["Pickup"] = function(Player, ObjectName)
 		AlignPosition.MaxForce = 1e6
 		AlignPosition.ApplyAtCenterOfMass = true
 		AlignPosition.Responsiveness = 20
-		AlignPosition.MaxVelocity = 35
+		AlignPosition.MaxVelocity = 45
 		AlignPosition.Parent = Attach
 		while Attach:FindFirstChild("IngredientMovement") do
 			if (Model.Position - CharAttach.WorldPosition).Magnitude < 1 then
@@ -67,13 +87,11 @@ Module["Pickup"] = function(Player, ObjectName)
 		Model.Anchored = true
 
 		task.spawn(IngredientTable.AddIngredient, Player, Clone, 3.5)
-		--[[
-            IngredientTable.AddIngredient(Player, Clone, 3.5)
-        ]]
 
 		Model.CFrame = Character.RightHand.CFrame * CFrame.new(0, -0.75, 0)
 
 		local Weld = Instance.new("WeldConstraint")
+		Weld.Name = "ItemWeld"
 		Weld.Part0 = Model
 		Weld.Part1 = Character.RightHand
 		Weld.Parent = Model

@@ -10,7 +10,7 @@ local GlobalFunctions = require(game.ReplicatedStorage.Modules.Shared.GlobalFunc
 -->Variables
 local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
-local ObjectDistance = 25
+local ObjectDistance = 15
 
 local HoverUI = Player.PlayerGui:WaitForChild("IngredientHover")
 local HoverText = HoverUI:FindFirstChild("Label")
@@ -19,6 +19,10 @@ local Remote = GlobalFunctions.GetRemote("IngredientActions")
 local LastObject
 
 -->Methods
+Module["Init"] = function()
+	LabData = GlobalFunctions.GetModule("LabData")
+end
+
 function DistanceCheck(Target)
 	local Distance = (Player.Character:WaitForChild("HumanoidRootPart").Position - Target.Position).Magnitude
 	return Distance < ObjectDistance
@@ -26,7 +30,11 @@ end
 
 function IsHovered(Mouse)
 	local Target = Mouse.Target
-	if Target and Target:GetAttribute("Ingredient") then
+	if not Target then
+		return
+	end
+
+	if Target and Target:GetAttribute("Ingredient") or Target:GetAttribute("LabTool") then
 		if DistanceCheck(Target) then
 			return Target
 		end
@@ -50,7 +58,10 @@ function ObjectText()
 			HoverText.Position = UDim2.new(0, (Mouse.X + 15), 0, (Mouse.Y - 12.5))
 		end
 
-		HoverText.Text = Object.Name
+		local IngredientData = LabData.GetObject(Object.Name)
+		local Name = Object:GetAttribute("LabTool") and IngredientData.Description or Object.Name
+
+		HoverText.Text = Name
 		HoverText.Visible = true
 	else
 		HoverText.Visible = false
@@ -93,8 +104,13 @@ end
 UserInputService.InputBegan:Connect(function(Input, Typing)
 	if Input.UserInputType == Enum.UserInputType.MouseButton1 then
 		if LastObject and IsHovered(Mouse) and DistanceCheck(LastObject) then
-			print(LastObject.Name .. "picked up")
-			Remote:FireServer("Pickup", LastObject.Name)
+			if LastObject:GetAttribute("LabTool") then
+				print(LastObject.Name .. "added to cauldron")
+				Remote:FireServer("AddCauldron")
+			else
+				print(LastObject.Name .. "picked up")
+				Remote:FireServer("Pickup", LastObject.Name)
+			end
 		end
 	end
 end)

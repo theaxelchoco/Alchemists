@@ -3,8 +3,8 @@ local Module = {}
 local GlobalFunctions = require(game.ReplicatedStorage.Modules.Shared.GlobalFunctions)
 
 -->Variables
-local IngredientTable = workspace.World.Map.IngredientTable
-local IngredientSpaces = IngredientTable.Ingredients:GetChildren()
+local Laboratory = workspace.World.Map.Laboratory
+local IngredientSpaces = Laboratory.Ingredients:GetChildren()
 
 -->Methods
 function CheckOwned(Player, ItemName)
@@ -17,21 +17,34 @@ end
 
 Module["Init"] = function()
 	Datastore = GlobalFunctions.GetModule("Datastore")
-	IngredientStorage = GlobalFunctions.GetModule("Ingredients")
+	LabData = GlobalFunctions.GetModule("LabData")
 
+	-->Loading Ingredient Table
 	for _, Ingredient in ipairs(IngredientSpaces) do
 		if CheckOwned(nil, Ingredient.Name) then
-			local IngredientData = IngredientStorage.GetIngredient(Ingredient.Name)
+			local IngredientData = LabData.GetObject(Ingredient.Name)
 			if IngredientData then
 				local Model = IngredientData.Model:Clone()
 				Model:SetAttribute("Ingredient", true)
 				Model.CFrame = Ingredient.CFrame
 				Model.Anchored = true
-				Model.Parent = IngredientTable.Ingredients
+				Model.Parent = Laboratory.Ingredients
 
-				IngredientTable.Ingredients:FindFirstChild(Ingredient.Name):Destroy()
+				local Attach = Instance.new("Attachment")
+				Attach.Name = "CenterAttachment"
+				Attach.Parent = Model
+
+				Laboratory.Ingredients:FindFirstChild(Ingredient.Name):Destroy()
+			else
+				Ingredient.Transparency = 0.65
 			end
 		end
+	end
+
+	for _, Tool in ipairs(Laboratory.Tools:GetChildren()) do
+		Tool:SetAttribute("LabTool", true)
+
+		--Add code to apply skins here
 	end
 end
 
@@ -47,12 +60,12 @@ Module["AddIngredient"] = function(Player, Object, Delay)
 		end
 
 		Object.Anchored = true
-		Object.Parent = IngredientTable.Ingredients
+		Object.Parent = Laboratory.Ingredients
 	end
 end
 
-Module["GetIngredient"] = function(Player, Name)
-	local Check = IngredientTable.Ingredients:FindFirstChild(Name)
+Module["GetObject"] = function(Player, Name)
+	local Check = Laboratory.Ingredients:FindFirstChild(Name)
 	if Check then
 		return Check
 	end

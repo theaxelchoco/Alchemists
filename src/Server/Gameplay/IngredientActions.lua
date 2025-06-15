@@ -19,6 +19,7 @@ Module["Init"] = function()
 	Datastore = GlobalFunctions.GetModule("Datastore")
 	LabData = GlobalFunctions.GetModule("LabData")
 	IngredientTable = GlobalFunctions.GetModule("IngredientTable")
+	BezierCurves = GlobalFunctions.GetModule("BezierCurves")
 
 	Remote.OnServerEvent:Connect(function(Player, Action, ObjectName)
 		if Module[Action] then
@@ -30,6 +31,8 @@ end
 Module["AddCauldron"] = function(Player)
 	local Character = Player.Character
 	local Model = Character.ItemHeld:FindFirstChildOfClass("MeshPart")
+	--Rewrite this to check for the player's cauldron
+	local Cauldron = workspace.World.Map.Laboratory.Tools.Cauldron
 
 	--Add check for ingredient or potion type
 	if Model and HasItem(Character) then
@@ -48,6 +51,8 @@ Module["AddCauldron"] = function(Player)
 		end
 
 		--Bezier Curve to throw object in the cauldron
+		local Bezier = BezierCurves.new(Model.Position, Cauldron.Brew.Position)
+		Bezier:CreateVector3Tween(Model, {}, TweenInfo.new(0.5, Enum.EasingStyle.Quad), true):Play()
 	end
 end
 

@@ -12,7 +12,8 @@ local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
 local ObjectDistance = 15
 
-local PlayerGui = Player.PlayerGui
+local HoverUI = Player.PlayerGui:WaitForChild("ObjectHover")
+local HoverLabel = HoverUI:FindFirstChild("Label")
 
 local Remote = GlobalFunctions.GetRemote("IngredientActions")
 local LastObject
@@ -20,20 +21,6 @@ local LastObject
 -->Methods
 Module["Init"] = function()
 	LabData = GlobalFunctions.GetModule("LabData")
-	local Roact = GlobalFunctions.GetModule("Roact")
-
-	local HoverUI = Roact.createElement("ScreenGui", {
-		Name = "ObjectHover",
-		IgnoreGuiInset = true,
-	}, {
-		HoverText = Roact.createElement("TextLabel", {
-			Name = "Label",
-			Text = "Object Name",
-			Size = UDim2.new(0.123, 0, 0.021, 0),
-		}),
-	})
-
-	HoverText = Roact.mount(HoverUI, PlayerGui)
 end
 
 function DistanceCheck(Target)
@@ -70,21 +57,26 @@ function ObjectText()
 	local Speed = 0.085
 
 	if Object then
-		if HoverText.Visible then
-			TweenService:Create(HoverText, TweenInfo.new(Speed, Enum.EasingStyle.Quad), {
+		if HoverLabel.Visible then
+			TweenService:Create(HoverLabel, TweenInfo.new(Speed, Enum.EasingStyle.Quad), {
 				Position = UDim2.new(0, (Mouse.X + 15), 0, (Mouse.Y - 12.5)),
 			}):Play()
 		else
-			HoverText.Position = UDim2.new(0, (Mouse.X + 15), 0, (Mouse.Y - 12.5))
+			HoverLabel.Position = UDim2.new(0, (Mouse.X + 15), 0, (Mouse.Y - 12.5))
 		end
 
 		local IngredientData = LabData.GetObject(Object.Name)
 		local Name = Object:GetAttribute("LabTool") and IngredientData.Description or Object.Name
+		local HeldItems = Player.Character.ItemHeld:GetChildren()
 
-		HoverText.Text = Name
-		HoverText.Visible = true
+		if IngredientData.Name == "Cauldron" and #HeldItems > 0 then
+			Name = string.format(IngredientData.ActionText, HeldItems[1].Name)
+		end
+
+		HoverLabel.Text = Name
+		HoverLabel.Visible = true
 	else
-		HoverText.Visible = false
+		HoverLabel.Visible = false
 	end
 end
 

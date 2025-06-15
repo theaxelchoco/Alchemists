@@ -30,7 +30,11 @@ for _, Module in ipairs(script:GetDescendants()) do
 end
 
 -->Instantiating the modules
-for _, Module in pairs(GlobalFunctions.Modules) do
+for Name, Module in pairs(GlobalFunctions.Modules) do
+	if ModuleObjects[Name].Parent.Name == "Packages" then
+		continue
+	end
+
 	if Module.Init then
 		if typeof(Module.Init) == "function" then
 			Module.Init()

@@ -1,5 +1,6 @@
 return {
 	Name = script.Name,
-	Description = "Add an ingredient to your cauldron!",
+	Description = "Put an ingredient in!",
+	ActionText = "Add %s to the caudron!",
 	Type = "LabTool",
 }

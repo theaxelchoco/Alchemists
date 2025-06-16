@@ -3,9 +3,14 @@
 registry = "test"
 
 [[package]]
-name = "axelw/spellcasters"
+name = "axelw/alchemists"
 version = "0.1.0"
-dependencies = [["Janitor", "howmanysmall/janitor@1.15.6"], ["Rewire", "sayhisam1/rewire@0.3.0"], ["Roact", "roblox/roact@1.4.4"]]
+dependencies = [["boattween", "boatbomber/boattween@1.0.1"], ["guard", "red-blox/guard@1.0.1"], ["inpututil", "sleitnick/input@2.3.0"], ["janitor", "howmanysmall/janitor@1.18.3"], ["loader", "sleitnick/loader@2.0.0"], ["red", "red-blox/red@2.3.2"], ["tableutil", "sleitnick/table-util@1.2.1"]]
+
+[[package]]
+name = "boatbomber/boattween"
+version = "1.0.1"
+dependencies = []
 
 [[package]]
 name = "evaera/promise"
@@ -14,15 +19,60 @@ dependencies = []
 
 [[package]]
 name = "howmanysmall/janitor"
-version = "1.15.6"
+version = "1.18.3"
+dependencies = [["Promise", "howmanysmall/typed-promise@4.0.6"]]
+
+[[package]]
+name = "howmanysmall/typed-promise"
+version = "4.0.6"
 dependencies = [["Promise", "evaera/promise@4.0.0"]]
 
 [[package]]
-name = "roblox/roact"
-version = "1.4.4"
+name = "red-blox/future"
+version = "1.0.1"
+dependencies = [["Spawn", "red-blox/spawn@1.1.0"]]
+
+[[package]]
+name = "red-blox/guard"
+version = "1.0.1"
 dependencies = []
 
 [[package]]
-name = "sayhisam1/rewire"
-version = "0.3.0"
+name = "red-blox/red"
+version = "2.3.2"
+dependencies = [["Future", "red-blox/future@1.0.1"], ["Guard", "red-blox/guard@1.0.1"], ["Signal", "red-blox/signal@2.0.2"], ["Spawn", "red-blox/spawn@1.1.0"]]
+
+[[package]]
+name = "red-blox/signal"
+version = "2.0.2"
+dependencies = [["Spawn", "red-blox/spawn@1.1.0"]]
+
+[[package]]
+name = "red-blox/spawn"
+version = "1.1.0"
+dependencies = []
+
+[[package]]
+name = "sleitnick/input"
+version = "2.3.0"
+dependencies = [["Signal", "sleitnick/signal@2.0.3"], ["Trove", "sleitnick/trove@1.5.0"]]
+
+[[package]]
+name = "sleitnick/loader"
+version = "2.0.0"
+dependencies = []
+
+[[package]]
+name = "sleitnick/signal"
+version = "2.0.3"
+dependencies = []
+
+[[package]]
+name = "sleitnick/table-util"
+version = "1.2.1"
+dependencies = []
+
+[[package]]
+name = "sleitnick/trove"
+version = "1.5.0"
 dependencies = []

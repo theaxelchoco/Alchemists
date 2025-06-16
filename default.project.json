@@ -3,46 +3,52 @@
   "tree": {
     "$className": "DataModel",
 
+    "ReplicatedFirst": {
+      "$path": "src/replicatedfirst",
+      "$ignoreUnknownInstances": true
+    },
+
     "ReplicatedStorage": {
       "$ignoreUnknownInstances": true,
 
-      "Modules": {
+      "modules":{
         "$className": "Folder",
-        "$path": "src/Modules",
+        "$path": "src/modules",
         "$ignoreUnknownInstances": true
       },
 
-      "Packages": {
+      "events": {
+        "$className": "Folder",
+        "$path": "src/events",
+        "$ignoreUnknownInstances": true
+      },
+
+      "packages": {
         "$className": "Folder",
         "$path": "Packages"
       }
     },
 
     "ServerScriptService": {
-      "$ignoreUnknownInstances": true,
-      
-      "ServerRuntime": {
-        "$path": "src/Server",
-        "$ignoreUnknownInstances": true
-      }
+      "$path": "src/serverscripts",
+      "$ignoreUnknownInstances": true
+    },
+
+    "ServerStorage": {
+      "$path": "src/servermodules",
+      "$ignoreUnknownInstances": true
     },
 
     "StarterPlayer": {
       "$ignoreUnknownInstances": true,
-
+      
       "StarterPlayerScripts": {
-        "$ignoreUnknownInstances": true,
-
-        "ClientRuntime": {
-          "$path": "src/Client",
-          "$ignoreUnknownInstances": true
-        }
+        "$path": "src/playerscripts",
+        "$ignoreUnknownInstances": true
       }
     },
 
     "Workspace": {
-      "$ignoreUnknownInstances": true,
-
       "$properties": {
         "FilteringEnabled": true
       },
@@ -62,7 +68,9 @@
             0
           ],
           "Size": [
-            2048,16,2048
+            512,
+            20,
+            512
           ]
         }
       }
